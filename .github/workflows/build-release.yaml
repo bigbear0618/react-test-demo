@@ -40,6 +40,12 @@ jobs:
     # 需要等build结束后才执行此处
     needs: build-and-deploy
     steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22.14.0
+      - name: Install semver
+        run: npm install -g semver # 全局安装
+
       - uses: actions/checkout@v3
       - run: |
           git fetch --tags
@@ -48,9 +54,6 @@ jobs:
           git tag v$NEW_TAG
           git push origin v$NEW_TAG
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 22.14.0
       # 生成版本更新日志
       - run: npx changelogithub
         env:
