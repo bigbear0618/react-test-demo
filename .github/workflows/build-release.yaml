@@ -1,9 +1,4 @@
 name: Build and Deploy
-
-# 定义本Action需要对仓库中的文件进行写操作的权限。
-permissions:
-  contents: write
-
 on:
   push:
     branches:
@@ -28,10 +23,11 @@ jobs:
           pnpm install
           pnpm run build
         env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
+          NODE_OPTIONS: --max_old_space_size=4096
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.3
         with:
           BRANCH: gh-pages
           FOLDER: build
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ASSESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
