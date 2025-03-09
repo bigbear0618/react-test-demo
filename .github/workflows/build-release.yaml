@@ -46,7 +46,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.12.0
+          node-version: 22.14.0
       # 生成版本更新日志
       - run: npx changelogithub
         env:
