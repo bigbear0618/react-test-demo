@@ -1,4 +1,9 @@
 name: Build and Deploy
+
+# 定义本Action需要对仓库中的文件进行写操作的权限。
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -30,3 +35,21 @@ jobs:
           BRANCH: gh-pages
           FOLDER: build
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+create-changelog:
+  runs-on: ubuntu-latest
+  # 需要等build结束后才执行此处
+  needs: build-and-deploy
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+
+    # 生成版本更新日志
+    - run: npx changelogithub
+      env:
+        GITHUB_TOKEN: ${{secrets.ACCESS_TOKEN}}
