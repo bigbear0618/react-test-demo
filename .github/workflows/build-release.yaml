@@ -41,13 +41,17 @@ jobs:
     needs: build-and-deploy
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - run: |
+          git fetch --tags
+          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          NEW_TAG=$(semver -i minor $LATEST_TAG)
+          git tag v$NEW_TAG
+          git push origin v$NEW_TAG
 
       - uses: actions/setup-node@v3
         with:
           node-version: 22.14.0
       # 生成版本更新日志
-      - run: npx changelogithub --skip-release
+      - run: npx changelogithub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
