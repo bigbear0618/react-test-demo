@@ -35,26 +35,21 @@ jobs:
           BRANCH: gh-pages
           FOLDER: build
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-  create-changelog:
+  generate-changelog:
     runs-on: ubuntu-latest
-    # 需要等build结束后才执行此处
-    needs: build-and-deploy
     steps:
-      - uses: actions/setup-node@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          node-version: 22.14.0
-      - name: Install semver
-        run: npm install -g semver # 全局安装
+          fetch-depth: 0
+          fetch-tags: true
 
-      - uses: actions/checkout@v3
-      - run: |
-          git fetch --tags
-          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
-          NEW_TAG=$(semver -i minor $LATEST_TAG)
-          git tag v$NEW_TAG
-          git push origin v$NEW_TAG
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
-      # 生成版本更新日志
-      - run: npx changelogithub
+      - name: Generate changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+        run: npx changelogithub
