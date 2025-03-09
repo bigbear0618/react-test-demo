@@ -48,6 +48,6 @@ jobs:
         with:
           node-version: 22.14.0
       # 生成版本更新日志
-      - run: npx changelogithub
+      - run: npx changelogithub --skip-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
