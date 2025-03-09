@@ -35,21 +35,3 @@ jobs:
           BRANCH: gh-pages
           FOLDER: build
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-  generate-changelog:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          fetch-tags: true
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-
-      - name: Generate changelog
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
-        run: npx changelogithub
