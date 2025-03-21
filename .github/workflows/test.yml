@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write # 需要写入权限提交变更
-    
+
     steps:
       # 1. 检出代码
       - name: Checkout Repository
@@ -27,8 +27,9 @@ jobs:
 
       # 3. 安装依赖（需提前在项目中安装 conventional-changelog-cli）
       - name: Install Dependencies
-        run: pnpm install
-
+        run: |
+          npm i -g pnpm
+          pnpm install
       # 4. 生成 CHANGELOG.md
       - name: Generate Changelog
         run: npx conventional-changelog -p angular -i CHANGELOG.md -s
