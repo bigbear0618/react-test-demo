@@ -1,27 +1,34 @@
-name: Test CI
+name: Auto Generate Changelog
+
 on:
   push:
     branches:
       - master
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout  ️
-        uses: actions/checkout@v2.3.1
 
-      - name: lock npm version
-        uses: actions/setup-node@v3
+jobs:
+  generate-changelog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 需要写入权限提交变更
+    
+    steps:
+      # 1. 检出代码
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # 需要完整提交历史
+
+      # 2. 设置 Node.js 环境
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18.12.0
+          cache: 'npm'
 
-      - name: Install and Build
-        run: |
-          npm i -g pnpm
-          pnpm install
-        env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
+      # 3. 安装依赖（需提前在项目中安装 conventional-changelog-cli）
+      - name: Install Dependencies
+        run: pnpm install
 
-      - name: test
-        run: |
-          pnpm run test
+      # 4. 生成 CHANGELOG.md
+      - name: Generate Changelog
+        run: npx conventional-changelog -p angular -i CHANGELOG.md -s
