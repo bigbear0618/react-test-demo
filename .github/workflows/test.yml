@@ -58,3 +58,11 @@ jobs:
       # 4. 生成 CHANGELOG.md
       - name: Generate Changelog
         run: conventional-changelog -p angular -i CHANGELOG.md -s
+
+      # 7. 提交变更（示例）
+      - name: Commit changes
+        if: success()
+        run: |
+          git add CHANGELOG.md
+          git commit -m "docs(changelog): Auto-generate changelog [skip ci]"
+          git push
