@@ -22,7 +22,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 18.12.0 # 固定 pnpm 版本
+          version: 8.15.0 # 固定 pnpm 版本
 
       - name: Configure pnpm global paths
         run: |
