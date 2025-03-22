@@ -42,11 +42,19 @@ jobs:
           pnpm config set store-dir ~/.pnpm-store
           pnpm config set global-bin-dir ~/.pnpm-global/bin
           echo "$HOME/.pnpm-global/bin" >> $GITHUB_PATH
-        # 4. 全局安装模块
-      - name: Install Global Tools
+
+        # 4. 全局安装 conventional-changelog
+      - name: Install conventional-changelog
+        run:
+          pnpm add -g conventional-changelog-cli@4.0.0 # 固定版本
+
+
+          # 5. 验证命令可访问性
+      - name: Check command availability
         run: |
-          pnpm install
-          pnpm add -g conventional-changelog
+          which conventional-changelog  # 确认命令路径
+          conventional-changelog --version
+
       # 4. 生成 CHANGELOG.md
       - name: Generate Changelog
         run: conventional-changelog -p angular -i CHANGELOG.md -s
