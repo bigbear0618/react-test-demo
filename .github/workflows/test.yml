@@ -25,6 +25,14 @@ jobs:
           node-version: 18.12.0
           cache: 'npm'
 
+      - name: Configure pnpm global paths
+        run: |
+          # 设置全局安装目录和存储目录
+          pnpm config set global-bin-dir ~/.pnpm-global/bin
+          pnpm config set store-dir ~/.pnpm-store
+          # 将全局 bin 目录添加到 PATH
+          echo "$HOME/.pnpm-global/bin" >> $GITHUB_PATH
+
       # 3. 安装依赖（需提前在项目中安装 conventional-changelog-cli）
       - name: Install Dependencies
         run: |
