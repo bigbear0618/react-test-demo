@@ -30,8 +30,7 @@ jobs:
         run: |
           npm i -g pnpm
           pnpm i -g conventional-changelog
-          pnpm install
-          conventional-changelog -p angular -i CHANGELOG.md -s
+          npm install
       # 4. 生成 CHANGELOG.md
-      # - name: Generate Changelog
-      # run: conventional-changelog -p angular -i CHANGELOG.md -s
+      - name: Generate Changelog
+        run: conventional-changelog -p angular -i CHANGELOG.md -s
