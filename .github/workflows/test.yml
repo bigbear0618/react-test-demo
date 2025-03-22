@@ -29,8 +29,17 @@ jobs:
       - name: Install Dependencies
         run: |
           npm i -g pnpm
-          pnpm i -g conventional-changelog
-          npm install
+        # 2. 配置全局安装路径
+      - name: Set Global Path
+        run: |
+          pnpm config set store-dir ~/.pnpm-store
+          pnpm config set global-bin-dir ~/.pnpm-global/bin
+          echo "$HOME/.pnpm-global/bin" >> $GITHUB_PATH
+        # 4. 全局安装模块
+      - name: Install Global Tools
+        run: |
+          pnpm install
+          pnpm add -g conventional-changelog
       # 4. 生成 CHANGELOG.md
       - name: Generate Changelog
         run: conventional-changelog -p angular -i CHANGELOG.md -s
