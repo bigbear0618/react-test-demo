@@ -63,6 +63,8 @@ jobs:
       - name: Commit changes
         if: success()
         run: |
+          git config --global user.name "jiusi"
+          git config --global user.email "jiusi@github.com"
           git add CHANGELOG.md
           git commit -m "docs(changelog): Auto-generate changelog [skip ci]"
           git push
