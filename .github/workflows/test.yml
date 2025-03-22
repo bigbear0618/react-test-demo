@@ -19,11 +19,10 @@ jobs:
           fetch-depth: 0 # 需要完整提交历史
 
       # 2. 设置 Node.js 环境
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
-          node-version: 18.12.0
-          cache: 'npm'
+          version: 18.12.0 # 固定 pnpm 版本
 
       - name: Configure pnpm global paths
         run: |
